@@ -5,8 +5,6 @@ body {
 
 h1 {
   margin: 0 auto;
-  font-weight: bold;
-  /*transform: rotate(-90deg);*/
 }
 
 .btn-primary {
@@ -16,31 +14,22 @@ h1 {
 }
 
 .container {
-  font-size: 18px;
+  font-size: 17px;
 }
 
 .jumbotron {
-  /*color: rgb(255,255,255);*/
+  color: rgb(0,0,0);
   background-color: rgb(4,161,149);
 }
 
 .jumbotron p {
   text-transform: none;
   font-style: italic;
-  font-size: 26px;
+  font-size: 24px;
   margin: 2% auto;
 }
 
 #headshotURL {
   margin: 0 auto;
-  border: 5px double rgb(47,80,73);
-}
-
-#nu {
-  float: left;
-  margin-left: 5%;
-}
-
-.firstName, .lastName, .city, .shoutout, .counter {
-  display: none;
+  border: 7px double rgb(0,0,0);
 }
