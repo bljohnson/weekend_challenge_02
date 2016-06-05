@@ -3,12 +3,44 @@ body {
   text-transform: capitalize;
 }
 
-/*h2 {
-  background-color: rgb(80,226,67);
-}*/
+h1 {
+  margin: 0 auto;
+  font-weight: bold;
+  /*transform: rotate(-90deg);*/
+}
 
-button {
+.btn-primary {
   display: inline-block;
-  width: 10%;
+  width: 15%;
   margin: 2%;
+}
+
+.container {
+  font-size: 18px;
+}
+
+.jumbotron {
+  /*color: rgb(255,255,255);*/
+  background-color: rgb(4,161,149);
+}
+
+.jumbotron p {
+  text-transform: none;
+  font-style: italic;
+  font-size: 26px;
+  margin: 2% auto;
+}
+
+#headshotURL {
+  margin: 0 auto;
+  border: 5px double rgb(47,80,73);
+}
+
+#nu {
+  float: left;
+  margin-left: 5%;
+}
+
+.firstName, .lastName, .city, .shoutout, .counter {
+  display: none;
 }

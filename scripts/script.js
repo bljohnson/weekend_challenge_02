@@ -61,19 +61,19 @@ $( function() {
   $('.container').append('<p class="lastName"></p>'); // add paragraph for last name
   $('.container').append('<p class="city"></p>'); // add paragraph for city
   $('.container').append('<p class="shoutout"></p>'); // add paragraph for shoutout
-  $('.container').append('<button class="prev">Prev</button>'); // add prev button
-  $('.container').append('<button class="next">Next</button>'); // add next button
+  $('.container').append('<button id="prev" class="btn btn-primary">Prev</button>'); // add prev button
+  $('.container').append('<button id="next" class="btn btn-primary">Next</button>'); // add next button
   $('.container').append('<p class="counter"></p>'); // want to display which # student viewing out of 20, should update when click Next/Prev
 
-
-      $.ajax({
-        url: 'https://api.myjson.com/bins/1lv0i',
-        dataType: 'json',
-        success: function(response) {
-          console.log(response.headshots.length);
-          $('.headshot').css('background-image', response.headshots[0].image);
-        }
-      });
+      //
+      // $.ajax({
+      //   url: 'https://api.myjson.com/bins/2tlxq',
+      //   dataType: 'json',
+      //   success: function(response) {
+      //     console.log("success from created json file");
+      //     $('.headshot').html('<img src="http://henryhall.github.io/Weekend-Project-2/Nu/bethanyjohnson.jpg" alt="adam headshot" width=450px height=300px/>');
+      //   }
+      // });
 
 
       $.ajax({
@@ -81,13 +81,16 @@ $( function() {
         dataType: 'json',
         success: function(response) {
 
-          $('.firstName').text('First Name: ' + response.students[0].first_name);
-          $('.lastName').text('Last Name: ' + response.students[0].last_name);
-          $('.city').text('City: ' + response.students[0].city);
-          $('.shoutout').text('Shoutout: ' + response.students[0].shoutout);
-          $('.counter').text((count+1) + '/' + response.students.length);
+          var headshot = "http://henryhall.github.io/Weekend-Project-2/Nu/" + response.students[0].first_name + response.students[0].last_name + ".jpg";
+          $('#headshotURL').attr('src', headshot);
 
-          $('.next').on('click', function() {
+          $('.firstName').text('First Name: ' + response.students[0].first_name).fadeIn('slow');
+          $('.lastName').text('Last Name: ' + response.students[0].last_name).fadeIn('slow');
+          $('.city').text('City: ' + response.students[0].city).fadeIn('slow');
+          $('.shoutout').text('Shoutout: ' + response.students[0].shoutout).fadeIn('slow');
+          $('.counter').text((count+1) + '/' + response.students.length).fadeIn('slow');
+
+          $('#next').on('click', function() {
             // for (var i=1; i<response.students.length; i++) { // fix- sort of works but with one click is strining all the first names, all the last names, all the cities, etc on the web page
               count++; // increment counter text that shows which student you're on
 
@@ -95,27 +98,33 @@ $( function() {
                 count = 0;
               }
 
-              $('.firstName').text('First Name: ' + response.students[count].first_name);
-              $('.lastName').text('Last Name: ' + response.students[count].last_name);
-              $('.city').text('City: ' + response.students[count].city);
-              $('.shoutout').text('Shoutout: ' + response.students[count].shoutout);
+              var headshot = "http://henryhall.github.io/Weekend-Project-2/Nu/" + response.students[count].first_name + response.students[count].last_name + ".jpg";
+              $('#headshotURL').attr('src', headshot).fadeIn('slow');
+
+              $('.firstName').text('First Name: ' + response.students[count].first_name).fadeIn('slow');
+              $('.lastName').text('Last Name: ' + response.students[count].last_name).fadeIn('slow');
+              $('.city').text('City: ' + response.students[count].city).fadeIn('slow');
+              $('.shoutout').text('Shoutout: ' + response.students[count].shoutout).fadeIn('slow');
               // $('.next').before('button class="individual">Testing</button>');
 
 
               // count++;
-              $('.counter').text((count+1) + '/' + response.students.length); // this works! .text wipes whatever it previously said so count is update
+              $('.counter').text((count+1) + '/' + response.students.length).fadeIn('slow'); // this works! .text wipes whatever it previously said so count is update
 
 
             // } // end of for loop
           }); // end of next click function
 
 
-          $('.prev').on('click', function() {
+          $('#prev').on('click', function() {
             count--; // decrement counter text that shows which student you're on
 
             if (count == -1) { // wben get to start of array, start over at end
               count = 19;
             }
+
+            var headshot = "http://henryhall.github.io/Weekend-Project-2/Nu/" + response.students[count].first_name + response.students[count].last_name + ".jpg";
+            $('#headshotURL').attr('src', headshot);
 
             $('.firstName').text('First Name: ' + response.students[count].first_name);
             $('.lastName').text('Last Name: ' + response.students[count].last_name);
