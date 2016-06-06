@@ -62,7 +62,7 @@ $( function() { // doc ready function (shorthand)
                   var headshot = photos.headshots[count].image;
                   $('#headshotURL').attr('src', headshot);
                 } // end addHeadshot function
-                
+
                 function addStudentInfo () { // function that populates text info of student that index is currently on
                   $('.name').text(cohort.students[count].first_name + " " + cohort.students[count].last_name); // add name
                   $('.city').text('Representing: ' + cohort.students[count].city); // add city
@@ -85,8 +85,8 @@ $( function() { // doc ready function (shorthand)
                 function previousStudent () { // when prev button is clicked...
                   $('#prev').click(function() {
                     count--; // decrement student being displayed
-                    if (count == -1) { // wben get to beginning of array of objects, wrap and start over at the end
-                      count = 19;
+                    if (count < 0) { // wben get to beginning of array of objects, wrap and start over at the end
+                      count = cohort.students.length - 1;
                     }
                     addHeadshot(); // display headshot
                     // addIndividualButtons(); // TODO not working yet - causes duplication if next button clicked first...
