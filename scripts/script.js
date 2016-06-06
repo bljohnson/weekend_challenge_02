@@ -53,17 +53,22 @@ $( function() { // doc ready function (shorthand)
                 previousStudent(); // when prev button is clicked...
 
               // global functions for use throughout doc
+                function addIndividualButtons () { // adds button BUT... TODO clicking them doesn't display that person
+               // $('.indivButtons').remove('<button class= "btn btn-primary">' + response.students[count].first_name + '</button>');
+                  $('.indivButtons').append('<button class= "btn btn-primary">' + cohort.students[count].first_name + '</button>');
+                } // end addIndividualButtons function
+
+                function addHeadshot () { // use photos returned from AJAX headshots request to display each student's headshot in turn
+                  var headshot = photos.headshots[count].image;
+                  $('#headshotURL').attr('src', headshot);
+                } // end addHeadshot function
+                
                 function addStudentInfo () { // function that populates text info of student that index is currently on
                   $('.name').text(cohort.students[count].first_name + " " + cohort.students[count].last_name); // add name
                   $('.city').text('Representing: ' + cohort.students[count].city); // add city
                   $('.shoutout').text('Shoutout: ' + cohort.students[count].shoutout); // add shoutout
                   $('.counter').text('(' + (count+1) + '/' + cohort.students.length + ')'); // update viewing # display
                 } // end addStudentInfo function
-
-                function addHeadshot () { // use photos returned from AJAX headshots request to display each student's headshot in turn
-                  var headshot = photos.headshots[count].image;
-                  $('#headshotURL').attr('src', headshot);
-                } // end addHeadshot function
 
                 function nextStudent () { // when next button is clicked...
                   $('#next').click(function() {
@@ -88,11 +93,6 @@ $( function() { // doc ready function (shorthand)
                     addStudentInfo(); // display student's text info
                   }); // end of prev click function
                 } // end previousStudent function
-
-                function addIndividualButtons () { // adds button BUT... TODO clicking them doesn't display that person
-                  // $('.indivButtons').remove('<button class= "btn btn-primary">' + response.students[count].first_name + '</button>');
-                  $('.indivButtons').append('<button class= "btn btn-primary">' + cohort.students[count].first_name + '</button>');
-                } // end addIndividualButtons function
 
               }, // end of success function for AJAX headshots request
 
