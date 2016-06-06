@@ -1,13 +1,7 @@
-// I created a new JSON data file, inside it, you will find an array of objects.
-// Each object, is each one of you!
-// https://raw.githubusercontent.com/devjanaprime/2.4-jQueryAjaxJSON/master/students.json
-//
-// You first task is to make an AJAX call from the client side app.js, using the .ajax method and
+// X- You first task is to make an AJAX call from the client side app.js, using the .ajax method and
 // access the json data through the url above. When successful, it should bring the data back down.
 // You will then need to combine that with what you have learned about parsing objects and arrays to
 // complete the challenge.
-//
-// Ajax reference: https://github.com/devjanaprime/2.4-jQueryAjaxJSON/blob/master/scripts/getJsonExample.js
 //
 // X- What I would like to see on the DOM, is one person at a time represented - the info for the first person
 // in the json data.
@@ -29,7 +23,6 @@
 // TODO- Include a timer that moves to the next person if the user is not clicking on next or prev.
 // TODO- If the user clicks on next or prev, the timer should be reset. The timer should transition between
 // people every 10 seconds.
-
 
 
 var count = 0; // start count at 0 to access student at index 0 on load, count var incremented/decremented with next/prev buttons
