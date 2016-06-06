@@ -32,93 +32,92 @@
 
 
 
-var count = 0; // start count at 0 to access in array the student displayed on load, count var is incremented/decremented with clicks to next/prev buttons, starting from 1
+var count = 0; // start count at 0 to access student at index 0 on load, count var incremented/decremented with next/prev buttons
 
-$( function() {
-  $('body').append('<div class="container"></div>'); // add empty div to hold student info
-  $('.container').append('<div class="headshot"></div>');
-  $('.container').append('<b><p class="name"></p></b>'); // add paragraph for first name
-  $('.container').append('<p class="city"></p>'); // add paragraph for city
-  $('.container').append('<p class="shoutout"></p>'); // add paragraph for shoutout
-  $('.container').append('<button id="prev" class="btn btn-primary">Prev</button>'); // add prev button
-  $('.container').append('<span class="indivButtons"></span>'); // to add indiv button per person when displayed on DOM
-  $('.container').append('<button id="next" class="btn btn-primary">Next</button>'); // add next button
-  $('.container').append('<p class="counter"></p>'); // want to display which # student viewing out of 20, should update when click Next/Prev
-
-      // trying to make own json to host headshots - not working
-      // $.ajax({
-      //   url: 'https://api.myjson.com/bins/2tlxq',
-      //   dataType: 'json',
-      //   success: function(response) {
-      //     console.log("success from created json file");
-      //     $('.headshot').html('<img src="http://henryhall.github.io/Weekend-Project-2/Nu/bethanyjohnson.jpg" alt="adam headshot" width=450px height=300px/>');
-      //   }
-      // });
-
-
-      $.ajax({
-        url: 'https://raw.githubusercontent.com/devjanaprime/2.4-jQueryAjaxJSON/master/students.json',
+$( function() { // doc ready function (shorthand)
+      $.ajax({ // AJAX cohort request for students object containing array of objects (students)
+        url: 'https://raw.githubusercontent.com/bljohnson/weekend_challenge_02/master/class-roster.json',
         dataType: 'json',
-        success: function(response) {
-          var headshot = "http://henryhall.github.io/Weekend-Project-2/Nu/" + response.students[0].first_name + response.students[0].last_name + ".jpg";
-          $('#headshotURL').attr('src', headshot);
+        success: function(cohort) {
+          $('body').append('<div class="container"></div>'); // add empty div to hold student info
+          $('.container').append('<p class="name"></p>'); // add paragraph for first name
+          $('.container').append('<p class="city"></p>'); // add paragraph for city
+          $('.container').append('<p class="shoutout"></p>'); // add paragraph for shoutout
+          // $('.container').append('<button id="prev" class="btn btn-primary">Prev</button>'); // hard coding this in html for now; add prev button
+          // $('.container').append('<span class="indivButtons"></span>'); // hard coding this in html for now; add area between prev and next buttons to append indiv student buttons to
+          // $('.container').append('<button id="next" class="btn btn-primary">Next</button>'); // hard coding this in html for now; add next button
+          // $('.container').append('<p class="counter"></p>'); // hard coding this in html for now; add viewing # display
 
-          addStudentInfo();
+          $.ajax({ // AJAX headshots request for headshots object containing array of objects (headshots)
+              url: 'https://raw.githubusercontent.com/bljohnson/weekend_challenge_02/master/headshots.json',
+              dataType: 'json',
+              success: function(photos) {
+                addHeadshot(); // display first student's headshot
+                addIndividualButtons(); // display first student's indiv button on initial page load
+                addStudentInfo(); // display first student's info on initial page load
 
-          // $('.name').text(response.students[0].first_name + " " + response.students[0].last_name);
-          // $('.city').text('Representing: ' + response.students[0].city);
-          // $('.shoutout').text('Shoutout: ' + response.students[0].shoutout);
-          // $('.counter').text((count+1) + '/' + response.students.length);
-          // $('.indivButtons').text('<button> response.students[0].first_name </button>'); // trying to create button with person's first name - not working
+                nextStudent(); // when next button is clicked...
+                previousStudent(); // when prev button is clicked...
 
-          $('#next').on('click', function() {
-            // for (var i=1; i<response.students.length; i++) { // fix? - sort of works but with one click is strining all the first names, all the last names, all the cities, etc on the web page
-              count++; // increment counter text that shows which student you're on
+              // global functions for use throughout doc
+                function addStudentInfo () { // function that populates text info of student that index is currently on
+                  $('.name').text(cohort.students[count].first_name + " " + cohort.students[count].last_name); // add name
+                  $('.city').text('Representing: ' + cohort.students[count].city); // add city
+                  $('.shoutout').text('Shoutout: ' + cohort.students[count].shoutout); // add shoutout
+                  $('.counter').text('(' + (count+1) + '/' + cohort.students.length + ')'); // update viewing # display
+                } // end addStudentInfo function
 
-              if (count >= response.students.length) { // when get to end of array, start over at beginning
-                count = 0;
-              }
+                function addHeadshot () { // use photos returned from AJAX headshots request to display each student's headshot in turn
+                  var headshot = photos.headshots[count].image;
+                  $('#headshotURL').attr('src', headshot);
+                } // end addHeadshot function
 
-              var headshot = "http://henryhall.github.io/Weekend-Project-2/Nu/" + response.students[count].first_name + response.students[count].last_name + ".jpg";
-              $('#headshotURL').attr('src', headshot);
+                function nextStudent () { // when next button is clicked...
+                  $('#next').click(function() {
+                    count++; // increment student being displayed
+                    if (count >= cohort.students.length) { // when get to end of array of objects, wrap and start over at beginning
+                      count = 0;
+                    }
+                    addHeadshot(); // display headshot
+                    addIndividualButtons(); // display indiv student button -- TODO kind of works - EVERY time next button clicked, adds indiv student button even if already has one
+                    addStudentInfo(); // display student's text info
+                  }); // end of next click function
+                } // end nextStudent function
 
-              addStudentInfo();
+                function previousStudent () { // when prev button is clicked...
+                  $('#prev').click(function() {
+                    count--; // decrement student being displayed
+                    if (count == -1) { // wben get to beginning of array of objects, wrap and start over at the end
+                      count = 19;
+                    }
+                    addHeadshot(); // display headshot
+                    // addIndividualButtons(); // TODO not working yet - causes duplication if next button clicked first...
+                    addStudentInfo(); // display student's text info
+                  }); // end of prev click function
+                } // end previousStudent function
 
-            // } // end of for loop
-          }); // end of next click function
+                function addIndividualButtons () { // adds button BUT... TODO clicking them doesn't display that person
+                  // $('.indivButtons').remove('<button class= "btn btn-primary">' + response.students[count].first_name + '</button>');
+                  $('.indivButtons').append('<button class= "btn btn-primary">' + cohort.students[count].first_name + '</button>');
+                } // end addIndividualButtons function
 
+              }, // end of success function for AJAX headshots request
 
-          $('#prev').on('click', function() {
-            count--; // decrement counter text that shows which student you're on
-
-            if (count == -1) { // wben get to start of array, start over at end
-              count = 19;
-            }
-
-            var headshot = "http://henryhall.github.io/Weekend-Project-2/Nu/" + response.students[count].first_name + response.students[count].last_name + ".jpg";
-            $('#headshotURL').attr('src', headshot);
-
-            addStudentInfo();
-          }); // end of prev click function
-
-
-          function addStudentInfo () { // function that populates name, city, shoutout fields with data of student that index is currently on, also updates which # student viewing out of 20
-            $('.name').text(response.students[count].first_name + " " + response.students[count].last_name);
-            $('.city').text('Representing: ' + response.students[count].city);
-            $('.shoutout').text('Shoutout: ' + response.students[count].shoutout);
-
-            $('.counter').text((count+1) + '/' + response.students.length); // this works! .text wipes whatever it previously said so count is update
-          } // end of function that adds in name, city, shoutout, and updates # student currently viewing
-
-      }, // end of success function
-
-      statusCode: { // if request is unsuccessful
+              statusCode: { // if AJAX headshots request is unsuccessful
                 404: function(){
-                   alert( 'error connecting to server' );
-                } // end 404
-               } // end statusCode
+                  alert( 'error connecting to server' );
+                } // end 404 function for unsuccessful AJAX headshots request
+              } // end statusCode for unsuccessful AJAX headshots request
 
-  }); // end of ajax function
+            }); // end of AJAX headshots request
 
+        }, // end of success function for AJAX cohort request
 
+        statusCode: { // if AJAX cohort request is unsuccessful
+          404: function(){
+            alert( 'error connecting to server' );
+          } // end 404 function for unsuccessful AJAX cohort request
+        } // end statusCode for unsuccessful AJAX cohort request
+
+    }); // end of AJAX cohort request
 }); // end of doc ready function
