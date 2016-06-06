@@ -13,7 +13,7 @@ body {
   text-transform: none;
   font-style: italic;
   font-size: 16px;
-  margin: 2% auto 0 auto;
+  margin: 2% auto 1% auto;
 }
 
 .jumbotron .quote {
@@ -48,6 +48,7 @@ h1 {
 
 .container {
   font-size: 16px;
+  margin-bottom: 2%;
 }
 
 .indivButtons {
@@ -62,6 +63,13 @@ h1 {
 .indivButtons .btn-primary {
   width: auto;
   margin: 0.5% 0.5%;
+}
+
+.pseudoGlyphicons {
+  font-size: 36px;
+  font-weight: bold;
+  position: relative;
+  top: 0.4em;
 }
 
 .name {
